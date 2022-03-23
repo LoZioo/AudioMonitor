@@ -1,0 +1,15 @@
+{
+  "name": "cimice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "speaker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Davide Scalisi",
+  "license": "ISC",
+  "dependencies": {
+    "@suldashi/lame": "^1.2.5",
+    "speaker": "^0.5.3"
+  }
+}
