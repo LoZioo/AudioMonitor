@@ -1,0 +1,17 @@
+# Folders
+.pio
+node_modules
+
+# txt
+README
+
+# json
+c_cpp_properties.json
+extensions.json
+launch.json
+
+# h
+password.h
+
+# mp3
+*.mp3
