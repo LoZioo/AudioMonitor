@@ -23,8 +23,6 @@ Un'insieme di vettori di uno spazio vettoriale è formato da vettori linearmente
 -	Ogni test avrà il suo corrispettivo audio a cui sono stati applicati i seguenti enhanchments:
 	-	0/50/150/250cm normalized\
 		La forma d'onda della registrazione è stata normalizzata tra `[-1db, 1db]`.
-
-	<br>
-
+		
 	-	0/50/150/250cm filtered\
 		La registrazione è stata sottoposta ad un filtro notch a `5530Hz` per poter filtrare in maniera mirata il rumore periodico.
