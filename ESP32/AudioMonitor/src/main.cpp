@@ -39,7 +39,9 @@ int curr = 0;
 
 void setup(){
 	Serial.begin(115200);
-	pinMode(22, OUTPUT);
+
+	//Per debug con oscilloscopio.
+	// pinMode(22, OUTPUT);
 	
 	timer = timerBegin(0, PRESCALER, true);
 	timerAlarmWrite(timer, AUTORELOAD, true);
@@ -68,7 +70,8 @@ void loop(){
 	while(!ok)
 		asm("nop");
 	
-	digitalWrite(22, !digitalRead(22));
+	//Per debug con oscilloscopio.
+	// digitalWrite(22, !digitalRead(22));
 	buf[curr] = adc.read();
 
 	//Se il buffer è pieno, invia i dati.
