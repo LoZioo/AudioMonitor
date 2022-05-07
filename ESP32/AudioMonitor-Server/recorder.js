@@ -2,21 +2,27 @@
 
 const dgram = require('dgram');
 const stream = require('stream');
+const readline = require('readline');
 const lame = require('@suldashi/lame');
 const fs = require('fs');
-
-//Primo parametro da console: nome file mp3 in cui salvare l'audio.
-const FILENAME = process.argv[3];
 
 //Binding della socket UDP.
 const HOST = process.argv[2];
 const PORT = 5000;
 
-console.clear();
-console.log("Salvataggio dati da " + HOST + ":" + PORT + " in " + FILENAME + ".mp3 (CTRL+C per salvare ed uscire).");
+//Nome file mp3 in cui salvare l'audio.
+const FILENAME = process.argv[3];
 
-//CTRL-C per salvare il file ed uscire.
-process.on("SIGINT", () => {
+console.clear();
+console.log("Salvataggio dati da " + HOST + ":" + PORT + " in " + FILENAME + ".mp3 (premi un tasto per salvare ed uscire).");
+
+//Premere un tasto per uscire.
+readline.emitKeypressEvents(process.stdin);
+
+if(process.stdin.isTTY)
+	process.stdin.setRawMode(true);
+
+process.stdin.on("keypress", (chunk, key) => {
 	console.log("Salvo e disconnetto...");
 
 	//Comando di fine campionamento.

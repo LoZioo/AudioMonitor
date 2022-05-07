@@ -59,7 +59,6 @@ SemaphoreHandle_t mutex_remote_ip_port = NULL;
 //Codice
 //--------------------------------------------------------------------------------//
 
-int t0 = 0;
 void setup(){	
 	Serial.begin(115200);
 	Serial.println("\nStarting up...");
@@ -164,13 +163,6 @@ void send_thread(void *parameter){
 	for(;;){
 		//Attendi che da sample_thread ci sia il via per inviare.
 		xSemaphoreTake(sem_ready_for_sending, portMAX_DELAY);
-
-		// Serial.printf("%d, %d, %d\n", section, cur, (int)(millis() - t0));
-		// t0 = millis();
-
-		// Serial.printf("from %d to %d\n", section * UDP_PAYLOAD_SIZE, (((section + 1) * UDP_PAYLOAD_SIZE) - 1));
-
-		// digitalWrite(2, !digitalRead(2));
 		
 		//Invia i dati nella sezione attuale.
 		xSemaphoreTake(mutex_remote_ip_port, portMAX_DELAY);
@@ -197,9 +189,6 @@ void sample_thread(void *parameter){
 		//Controllo se la sezione del buffer è stata riempita completamente.
 		prev_section = section;
 		section = (uint8_t)(cur/UDP_PAYLOAD_SIZE);
-
-		// Serial.printf("%d, %d, %d\n", section, cur, (int)(millis() - t0));
-		// t0 = millis();
 
 		//Se send_thread non riesce a gestire la velocità impostata,
 		//viene visualizzato questo errore.

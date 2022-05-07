@@ -2,6 +2,7 @@
 
 const dgram = require('dgram');
 const stream = require('stream');
+const readline = require('readline');
 const Speaker = require('speaker');
 
 //Binding della socket UDP.
@@ -9,10 +10,17 @@ const HOST = process.argv[2];
 const PORT = 5000;
 
 console.clear();
-console.log("Riproduzione dati da " + HOST + ":" + PORT + " (CTRL+C per uscire).");
+console.log("Riproduzione dati da " + HOST + ":" + PORT + " (premi un tasto per uscire).");
 
-//CTRL-C per uscire.
-process.on("SIGINT", () => {
+//Premere un tasto per uscire.
+readline.emitKeypressEvents(process.stdin);
+
+if(process.stdin.isTTY)
+	process.stdin.setRawMode(true);
+
+process.stdin.on("keypress", (chunk, key) => {
+	console.log("Disconnetto...")
+
 	//Comando di fine campionamento.
 	const message = Buffer.alloc(1);
 	message.writeUInt8(0, 0);
