@@ -4,6 +4,10 @@
 		Flash:	1310720 bytes.
 */
 
+//Protocol and app CPU.
+#define PRO_CPU 0
+#define APP_CPU 1
+
 //Chip select ADC.
 #define ADC_CS 5
 
