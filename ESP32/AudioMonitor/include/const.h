@@ -4,11 +4,11 @@
 		Flash:	1310720 bytes.
 */
 
-//Porta UDP locale.
-#define UDP_LOCAL_PORT 5000
-
 //Chip select ADC.
 #define ADC_CS 5
+
+//Porta UDP locale.
+#define UDP_LOCAL_PORT 5000
 
 //Parametri del timer di campionamento.
 #define PRESCALER		5000	//80.000.000Hz / 5.000 = 16.000Hz
@@ -24,38 +24,30 @@
 					pacchetti al secondo								50 pacchetti
 	
 	Siccome un campione pesa 2 byte, allora verranno effettivamente inviati 640 byte.
-	Essendo 640 byte < 1000 byte, l'ESP32 riuscirà a sostenere l'invio dei dati
-	senza perdita di pacchetti dovuti al chip fisico del WiFi.
+	Essendo 640 byte < 1000 byte, l'ESP32 riuscirà a sostenere l'invio dei dati senza perdita di
+	pacchetti dovuti al chip fisico del WiFi.
 
 	Sono quindi 640 byte di RAM.
 */
 #define UDP_PAYLOAD_SIZE	320
 
-//4 volte UDP_PAYLOAD_SIZE per essere sicuri di non avere dati sovrapposti; sono 2560 byte di RAM.
+//4 volte UDP_PAYLOAD_SIZE per essere sicuri di non saturare; sono 2560 byte di RAM.
 #define CIRC_BUFFER_SIZE	1280
 
 //CIRC_BUFFER_SIZE / UDP_PAYLOAD_SIZE
 #define CIRC_BUFFER_SECTIONS	4
 
 /*
-	Descrizione variabili:
-		-	wBufSection, rBufSection int[0,3]
-			CIRC_BUFFER_SIZE è il quattro volte UDP_PAYLOAD_SIZE.
-
-			Questo significa che ci sono logicamente 4 sezioni del buffer e quindi, wBufSection e rBufSection sono
-			degli indici logici che indicano in quale sezione del buffer la routine di interrupt sta raccogliendo dati
-			e da quale sezione del buffer il thread di invio sta elaborando dati.
-	
 	Info sul funzionamento logico:
-		-	Se si devono inviare tutti i dati contenuti nella sezione del buffer rBufSection, basta inviare tutti i
-			dati nel range [rBufSection * UDP_PAYLOAD_SIZE, ((rBufSection + 1) * UDP_PAYLOAD_SIZE) - 1].
-			
-			rBufSection		f(rBufSection)
-			0							[0, 319]
-			1							[320, 639]
-			2							[640, 959]
-			3							[960, 1279]
-		
+		-	Se si devono inviare tutti i dati contenuti nella sezione del buffer n, basta inviare tutti i
+			dati nel range [n * UDP_PAYLOAD_SIZE, ((n + 1) * UDP_PAYLOAD_SIZE) - 1].
+			_______________
+			n	|	f(n)
+			0	|	[0, 319]
+			1	|	[320, 639]
+			2	|	[640, 959]
+			3	|	[960, 1279]
+
 		-	Il campionamento effettivo non viene effettuato all'interno della ISR, ma viene eseguito tramite un deferred interrupt:
 			https://youtu.be/qsflCf6ahXU?list=PLEBQazB0HUyQ4hAPU1cJED6t3DU0h34bz&t=519
 			https://www.freertos.org/a00124.html
@@ -68,5 +60,5 @@
 						esiste in attesa del suddetto semaforo.
 				
 				5)	In questo caso, B>A e quindi l'ISR ritorna ad A che torna subito il controllo allo scheduler.
-						A questo punto lo scheduler vede che B è ready e che B>A e quindi viene eseguito direttamente B.
+				6)	A questo punto lo scheduler vede che B è ready e che B>A e quindi viene eseguito direttamente B.
 */
