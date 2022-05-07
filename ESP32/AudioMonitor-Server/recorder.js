@@ -6,10 +6,10 @@ const lame = require('@suldashi/lame');
 const fs = require('fs');
 
 //Primo parametro da console: nome file mp3 in cui salvare l'audio.
-const FILENAME = process.argv[2];
+const FILENAME = process.argv[3];
 
 //Binding della socket UDP.
-const HOST = process.argv[3];
+const HOST = process.argv[2];
 const PORT = 5000;
 
 console.clear();

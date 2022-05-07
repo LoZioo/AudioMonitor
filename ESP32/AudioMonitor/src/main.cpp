@@ -60,7 +60,7 @@ SemaphoreHandle_t mutex_remote_ip_port = NULL;
 //--------------------------------------------------------------------------------//
 
 int t0 = 0;
-void setup(){
+void setup(){	
 	Serial.begin(115200);
 	Serial.println("\nStarting up...");
 	
@@ -169,6 +169,8 @@ void send_thread(void *parameter){
 		// t0 = millis();
 
 		// Serial.printf("from %d to %d\n", section * UDP_PAYLOAD_SIZE, (((section + 1) * UDP_PAYLOAD_SIZE) - 1));
+
+		// digitalWrite(2, !digitalRead(2));
 		
 		//Invia i dati nella sezione attuale.
 		xSemaphoreTake(mutex_remote_ip_port, portMAX_DELAY);
