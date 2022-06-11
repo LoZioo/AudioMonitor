@@ -1,9 +1,9 @@
 //Uso comando:	node speaker IP
 
-const dgram = require('dgram');
-const stream = require('stream');
-const readline = require('readline');
-const Speaker = require('speaker');
+const dgram = require('dgram');					//UDP Socket.
+const stream = require('stream');				//File as stream.
+const readline = require('readline');		//Read from stdin.
+const Speaker = require('speaker');			//Write into the speaker buffer.
 
 //Binding della socket UDP.
 const HOST = process.argv[2];

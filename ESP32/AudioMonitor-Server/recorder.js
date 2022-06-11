@@ -1,10 +1,10 @@
 //Uso comando:	node recorder IP nomeFile
 
-const dgram = require('dgram');
-const stream = require('stream');
-const readline = require('readline');
-const lame = require('@suldashi/lame');
-const fs = require('fs');
+const dgram = require('dgram');						//UDP Socket.
+const stream = require('stream');					//File as stream.
+const readline = require('readline');			//Read from stdin.
+const lame = require('@suldashi/lame');		//MP3 data encoding.
+const fs = require('fs');									//File system.
 
 //Binding della socket UDP.
 const HOST = process.argv[2];
